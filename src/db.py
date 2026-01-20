@@ -195,7 +195,6 @@ def _rows_to_records(
     for row in variant_rows:
         if not row.get("variant_id"):
             continue
-        display_order = _parse_display_order(row)
         variants.append(
             Variant(
                 variant_id=row.get("variant_id", "").strip(),
@@ -207,7 +206,7 @@ def _rows_to_records(
                 block_id=row.get("block_id", "").strip(),
                 block_title=row.get("block_title", "").strip(),
                 info_text=row.get("info_text", "").strip(),
-                display_order=display_order,
+                display_order=int(row.get("display_order", "0") or 0),
             )
         )
 
@@ -227,20 +226,6 @@ def _rows_to_records(
 
     variants.sort(key=lambda v: v.display_order)
     return variants, interpretations
-
-
-def _parse_display_order(row: Dict[str, str]) -> int:
-    value = (row.get("display_order") or "").strip()
-    if not value:
-        return 0
-    try:
-        return int(value)
-    except ValueError as exc:
-        variant_id = row.get("variant_id", "<unknown>")
-        raise DatabaseError(
-            f"Invalid display_order '{value}' for variant {variant_id}. "
-            "Ensure the CSV uses quotes around text fields that contain commas."
-        ) from exc
 
 
 def _load_shared_strings(zf: zipfile.ZipFile) -> List[str]:

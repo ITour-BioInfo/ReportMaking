@@ -39,8 +39,6 @@ python src/app.py
 
 The app loads `data/variant_db.csv`, renders a list of variants, and lets you select genotypes. Use **Generate DOCX** to produce a report in `output/`.
 
-> ⚠️ The GUI requires a desktop session. On Linux/macOS you must have a display server available and `DISPLAY` set. If you run in a headless environment, you will see an error about `DISPLAY`.
-
 ## Preparing the template (`templates/template.docx`)
 
 `templates/template.docx` must be created by copying `Reference/Reference.docx`. You **must** add placeholders and a hidden template section so the generator can clone the correct rows/blocks.

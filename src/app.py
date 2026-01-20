@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import datetime as dt
-import os
-import sys
 import tkinter as tk
 from pathlib import Path
 from tkinter import messagebox, ttk
@@ -239,22 +237,7 @@ def dt_today() -> str:
     return dt.date.today().strftime("%d.%m.%Y")
 
 
-def _ensure_display_available() -> None:
-    if os.name == "nt":
-        return
-    if os.environ.get("DISPLAY"):
-        return
-    raise RuntimeError(
-        "Tkinter GUI requires a display. Set the DISPLAY environment variable or run on a desktop session."
-    )
-
-
 def main() -> None:
-    try:
-        _ensure_display_available()
-    except RuntimeError as exc:
-        print(str(exc), file=sys.stderr)
-        sys.exit(1)
     root = tk.Tk()
     ReportApp(root)
     root.mainloop()
